@@ -1,0 +1,18 @@
+# 依赖与构建产物
+node_modules/
+dist/
+.pnpm-store/
+
+# 日志与临时文件
+*.log
+npm-debug.log*
+
+# 系统杂项
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 本地数据（便签主库在 ~/.dsh/scratchpad/，永远不要进仓库）
+*.db
+*.db-journal
+*.sqlite

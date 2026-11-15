@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Quick notes",
+    "description": "Adds a quick-notes panel with automatic reminder-time detection; notes tuck behind a small floating launcher until you open them. One click exports them as Markdown for the Doushu library; when a Doushu idea endpoint is reachable, notes can also be promoted into idea cards."
+  }
+}

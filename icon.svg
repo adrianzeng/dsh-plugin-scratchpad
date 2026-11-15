@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Scratchpad">
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="#f0b54a"/>
+  <path d="M20 15h17l9 9v25a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V19a4 4 0 0 1 4-4z" fill="#fffdf7"/>
+  <path d="M37 15l9 9h-9z" fill="#e6a133"/>
+  <path d="M25 31h14M25 38h14M25 45h9" stroke="#a8711c" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

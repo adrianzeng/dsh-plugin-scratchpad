@@ -1,0 +1,42 @@
+{
+  "name": "@local/dsh-plugin-scratchpad",
+  "version": "1.9.1",
+  "private": true,
+  "description": "Quick notes with automatic reminder-time detection, a left sidebar entry with a live count, a collapsible launcher with inline editing, and an optional promote-to-ideas action for Doushu-based workflows.",
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "notes",
+    "reminders",
+    "productivity",
+    "doushu",
+    "ideas"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    }
+  }
+}
