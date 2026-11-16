@@ -1,6 +1,6 @@
 {
   "name": "@local/dsh-plugin-scratchpad",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "private": true,
   "description": "Quick notes with automatic reminder-time detection, a left sidebar entry with a live count, a collapsible launcher with inline editing, and an optional promote-to-ideas action for Doushu-based workflows.",
   "license": "MIT",

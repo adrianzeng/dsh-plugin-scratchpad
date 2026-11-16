@@ -245,6 +245,31 @@ assert.equal(JSON.parse(store.get('dsh-plugin-scratchpad/prefs/v1')).doneSort, '
 plugin.__test.savePrefs({ doneSort: 'createdAt' });
 assert.equal(plugin.__test.getPrefs().doneSort, 'createdAt');
 
+// Active notes follow a user-selected order too: reminders first (default) or newest-written.
+assert.equal(plugin.__test.getPrefs().activeSort, 'remind');
+const activeMarkup = renderNode(fakeReact.createElement(plugin.__test.ActiveSortControl, { t }));
+assert.ok(activeMarkup.includes('prefs.sortRemind'));
+assert.ok(activeMarkup.includes('prefs.sortRecent'));
+const activeSample = [
+  { id: 'x', text: 'x', title: 'x', createdAt: 100, done: false, remindAt: 9000 },
+  { id: 'y', text: 'y', title: 'y', createdAt: 300, done: false, remindAt: null },
+  { id: 'z', text: 'z', title: 'z', createdAt: 200, done: false, remindAt: null },
+];
+assert.deepEqual(
+  plugin.__test.sortNotes(activeSample).map((note) => note.id),
+  ['x', 'y', 'z'],
+  'reminder mode keeps the timed note on top, newest-written after it',
+);
+plugin.__test.savePrefs({ activeSort: 'recent' });
+assert.deepEqual(
+  plugin.__test.sortNotes(activeSample).map((note) => note.id),
+  ['y', 'z', 'x'],
+  'newest-written order ignores reminders and sorts by creation time',
+);
+assert.equal(JSON.parse(store.get('dsh-plugin-scratchpad/prefs/v1')).activeSort, 'recent', 'active order persists');
+plugin.__test.savePrefs({ activeSort: 'remind' });
+assert.equal(plugin.__test.getPrefs().activeSort, 'remind');
+
 // The overdue seeded note must have scheduled a near-immediate timer.
 assert.ok(timeouts.length >= 1, 'a reminder timeout must be scheduled');
 const dueTimer = timeouts[0];

@@ -80,6 +80,9 @@ window.__ModuleLoader__.load({
       'prefs.order': '记录排序',
       'prefs.orderHistory': '记录顺序',
       'prefs.orderDone': '完成时间',
+      'prefs.activeSort': '进行中排序',
+      'prefs.sortRemind': '提醒优先',
+      'prefs.sortRecent': '最近写的',
       'prefs.hint': '提醒在应用打开时生效；开启桌面通知后还会在系统层弹出。',
       'prefs.denied': '通知未获授权，应用内提醒仍然有效',
       'prefs.unsupported': '当前环境不支持系统通知',
@@ -173,6 +176,9 @@ window.__ModuleLoader__.load({
       'prefs.order': 'Record order',
       'prefs.orderHistory': 'Recorded',
       'prefs.orderDone': 'Completed',
+      'prefs.activeSort': 'Active order',
+      'prefs.sortRemind': 'Reminders first',
+      'prefs.sortRecent': 'Newest',
       'prefs.hint': 'Reminders run while the app is open; desktop notifications also pop at system level.',
       'prefs.denied': 'Notification permission denied — in-app reminder still works',
       'prefs.unsupported': 'System notifications are unavailable here',
@@ -251,38 +257,38 @@ window.__ModuleLoader__.load({
       "",
       "/* ---------- 页头 ---------- */",
       ".dsh-notes-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--note-line); }",
-      ".dsh-notes-heading { margin: 0; font-size: 22px; line-height: 30px; font-weight: 650; letter-spacing: -0.012em; }",
-      ".dsh-notes-subtitle { font-size: 12.5px; line-height: 18px; color: var(--note-ink-soft); }",
-      ".dsh-notes-counts { margin-left: auto; padding: 3px 11px; border-radius: 999px; background: var(--note-surface-2); color: var(--note-ink-soft); font-size: 11.5px; line-height: 18px; font-variant-numeric: tabular-nums; white-space: nowrap; }",
+      ".dsh-notes-heading { margin: 0; font-size: 23px; line-height: 30px; font-weight: 650; letter-spacing: -0.012em; }",
+      ".dsh-notes-subtitle { font-size: 13.5px; line-height: 18px; color: var(--note-ink-soft); }",
+      ".dsh-notes-counts { margin-left: auto; padding: 3px 11px; border-radius: 999px; background: var(--note-surface-2); color: var(--note-ink-soft); font-size: 12.5px; line-height: 18px; font-variant-numeric: tabular-nums; white-space: nowrap; }",
       "",
       "/* ---------- 记录区（便签纸感觉：纸面 + 细墨线 + 焦点时的一圈柔光） ---------- */",
       ".dsh-notes-capture { box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; padding: 16px 16px 13px; border-radius: 14px; border: 1px solid var(--note-line); background: var(--note-surface); background-image: radial-gradient(120% 130% at 0% 0%, color-mix(in srgb, var(--note-accent) 7%, transparent), transparent 58%); box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03); transition: border-color 0.18s var(--note-ease), box-shadow 0.18s var(--note-ease); }",
       ".dsh-notes-capture:focus-within { border-color: color-mix(in srgb, var(--note-accent) 52%, var(--note-line)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--note-accent) 11%, transparent), 0 8px 22px rgba(16, 24, 40, 0.07); }",
-      ".dsh-notes-editor { box-sizing: border-box; display: block; width: 100%; min-height: 64px; max-height: 40vh; resize: vertical; padding: 2px; border: none; background: transparent; color: var(--note-ink); font-family: inherit; font-size: 14.5px; line-height: 23px; outline: none; }",
+      ".dsh-notes-editor { box-sizing: border-box; display: block; width: 100%; min-height: 64px; max-height: 40vh; resize: vertical; padding: 2px; border: none; background: transparent; color: var(--note-ink); font-family: inherit; font-size: 16px; line-height: 25px; outline: none; }",
       ".dsh-notes-editor::placeholder { color: color-mix(in srgb, var(--note-ink-soft) 82%, transparent); }",
       ".dsh-notes-editor:focus-visible { outline: none; }",
-      ".dsh-notes-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; line-height: 18px; }",
+      ".dsh-notes-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; line-height: 18px; }",
       ".dsh-notes-meta-end { margin-left: auto; display: flex; align-items: center; gap: 10px; }",
       "",
       "/* ---------- 芯片 / 标签 ---------- */",
-      ".dsh-notes-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--note-line); background: var(--note-elevated); color: var(--note-ink-soft); font: inherit; font-size: 11.5px; line-height: 18px; }",
+      ".dsh-notes-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--note-line); background: var(--note-elevated); color: var(--note-ink-soft); font: inherit; font-size: 12.5px; line-height: 18px; }",
       ".dsh-notes-chip::before { content: ''; width: 6px; height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--note-ink-soft) 50%, transparent); flex: none; }",
       ".dsh-notes-chip[data-due=\"true\"] { border-color: color-mix(in srgb, var(--note-warn) 38%, transparent); background: color-mix(in srgb, var(--note-warn) 10%, transparent); color: var(--note-warn); }",
       ".dsh-notes-chip[data-due=\"true\"]::before { background: var(--note-warn); }",
       ".dsh-notes-chip[data-muted=\"true\"] { border-style: dashed; background: transparent; }",
       ".dsh-notes-chip[data-muted=\"true\"]::before { display: none; }",
-      ".dsh-notes-datetime { box-sizing: border-box; font: inherit; font-size: 11.5px; line-height: 18px; padding: 3px 8px; border-radius: 8px; border: 1px solid var(--note-line); background: var(--note-elevated); color: var(--note-ink); color-scheme: light dark; }",
+      ".dsh-notes-datetime { box-sizing: border-box; font: inherit; font-size: 12.5px; line-height: 18px; padding: 3px 8px; border-radius: 8px; border: 1px solid var(--note-line); background: var(--note-elevated); color: var(--note-ink); color-scheme: light dark; }",
       ".dsh-notes-datetime:focus-visible { border-color: var(--note-accent); outline: 2px solid color-mix(in srgb, var(--note-accent) 30%, transparent); outline-offset: 1px; }",
-      ".dsh-notes-hint { font-size: 11.5px; line-height: 17px; color: var(--note-ink-soft); }",
-      ".dsh-notes-warn { font-size: 12px; line-height: 18px; color: var(--note-warn); }",
+      ".dsh-notes-hint { font-size: 12.5px; line-height: 18px; color: var(--note-ink-soft); }",
+      ".dsh-notes-warn { font-size: 13px; line-height: 18px; color: var(--note-warn); }",
       "",
       "/* ---------- 按钮 ---------- */",
-      ".dsh-notes-primary { appearance: none; font: inherit; font-size: 13px; font-weight: 600; line-height: 20px; padding: 6px 18px; border-radius: 10px; border: 1px solid var(--note-accent); background: var(--note-accent); color: #ffffff; cursor: pointer; box-shadow: 0 6px 16px color-mix(in srgb, var(--note-accent) 24%, transparent); transition: transform 0.14s var(--note-ease), box-shadow 0.18s var(--note-ease), filter 0.18s var(--note-ease); }",
+      ".dsh-notes-primary { appearance: none; font: inherit; font-size: 14px; font-weight: 600; line-height: 21px; padding: 6px 18px; border-radius: 10px; border: 1px solid var(--note-accent); background: var(--note-accent); color: #ffffff; cursor: pointer; box-shadow: 0 6px 16px color-mix(in srgb, var(--note-accent) 24%, transparent); transition: transform 0.14s var(--note-ease), box-shadow 0.18s var(--note-ease), filter 0.18s var(--note-ease); }",
       ".dsh-notes-primary:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 10px 22px color-mix(in srgb, var(--note-accent) 30%, transparent); }",
       ".dsh-notes-primary:active:not(:disabled) { transform: translateY(0); box-shadow: 0 4px 12px color-mix(in srgb, var(--note-accent) 22%, transparent); }",
       ".dsh-notes-primary:disabled { opacity: 0.42; box-shadow: none; cursor: default; }",
       ".dsh-notes-primary:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 2px; }",
-      ".dsh-notes-action { appearance: none; font: inherit; font-size: 11.5px; line-height: 17px; padding: 3px 11px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--note-ink-soft); cursor: pointer; transition: background 0.14s var(--note-ease), color 0.14s var(--note-ease); }",
+      ".dsh-notes-action { appearance: none; font: inherit; font-size: 12.5px; line-height: 18px; padding: 3px 11px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--note-ink-soft); cursor: pointer; transition: background 0.14s var(--note-ease), color 0.14s var(--note-ease); }",
       ".dsh-notes-action:hover { background: var(--note-surface-2); color: var(--note-ink); }",
       ".dsh-notes-action:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 1px; }",
       ".dsh-notes-action[data-tone=\"positive\"] { color: var(--note-ok); background: color-mix(in srgb, var(--note-ok) 10%, transparent); }",
@@ -290,13 +296,13 @@ window.__ModuleLoader__.load({
       ".dsh-notes-action[data-tone=\"danger\"]:hover { color: var(--note-danger); background: color-mix(in srgb, var(--note-danger) 12%, transparent); }",
       ".dsh-notes-action[data-tone=\"idea\"] { color: var(--note-accent); background: color-mix(in srgb, var(--note-accent) 10%, transparent); font-weight: 600; }",
       ".dsh-notes-action[data-tone=\"idea\"]:hover { background: color-mix(in srgb, var(--note-accent) 18%, transparent); color: var(--note-accent); }",
-      ".dsh-notes-link { appearance: none; border: none; background: transparent; padding: 0; font: inherit; font-size: 12px; line-height: 18px; color: var(--note-ink-soft); cursor: pointer; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--note-ink-soft) 40%, transparent); }",
+      ".dsh-notes-link { appearance: none; border: none; background: transparent; padding: 0; font: inherit; font-size: 13px; line-height: 18px; color: var(--note-ink-soft); cursor: pointer; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--note-ink-soft) 40%, transparent); }",
       ".dsh-notes-link:hover { color: var(--note-accent); border-bottom-color: currentColor; }",
       ".dsh-notes-link:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 2px; border-radius: 4px; }",
       "",
       "/* ---------- 分区 ---------- */",
       ".dsh-notes-section { display: flex; flex-direction: column; gap: 10px; }",
-      ".dsh-notes-section-head { display: flex; align-items: center; gap: 8px; font-size: 11.5px; line-height: 18px; letter-spacing: 0.04em; color: var(--note-ink-soft); }",
+      ".dsh-notes-section-head { display: flex; align-items: center; gap: 8px; font-size: 12.5px; line-height: 18px; letter-spacing: 0.04em; color: var(--note-ink-soft); }",
       ".dsh-notes-section-count { padding: 1px 8px; border-radius: 999px; background: var(--note-surface-2); color: var(--note-ink-soft); font-variant-numeric: tabular-nums; }",
       "",
       "/* ---------- 便签卡 ---------- */",
@@ -307,13 +313,13 @@ window.__ModuleLoader__.load({
       ".dsh-notes-card[data-done=\"true\"] { background: color-mix(in srgb, var(--note-surface) 42%, transparent); }",
       ".dsh-notes-card[data-done=\"true\"]:hover { transform: none; box-shadow: none; }",
       ".dsh-notes-card[data-done=\"true\"] .dsh-notes-card-text { color: var(--note-ink-soft); text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, var(--note-ink-soft) 45%, transparent); }",
-      ".dsh-notes-card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 11.5px; line-height: 17px; color: var(--note-ink-soft); }",
-      ".dsh-notes-card-text { margin: 0; font-size: 14px; line-height: 23px; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; color: var(--note-ink); }",
+      ".dsh-notes-card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12.5px; line-height: 18px; color: var(--note-ink-soft); }",
+      ".dsh-notes-card-text { margin: 0; font-size: 15.5px; line-height: 24px; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; color: var(--note-ink); }",
       ".dsh-notes-actions { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-left: -11px; }",
       ".dsh-notes-edit { display: flex; flex-direction: column; gap: 10px; }",
       "",
       "/* ---------- 空状态 ---------- */",
-      ".dsh-notes-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 30px 16px; border-radius: 12px; border: 1px dashed var(--note-line-strong); background: color-mix(in srgb, var(--note-surface) 60%, transparent); color: var(--note-ink-soft); font-size: 12.5px; line-height: 19px; text-align: center; }",
+      ".dsh-notes-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 30px 16px; border-radius: 12px; border: 1px dashed var(--note-line-strong); background: color-mix(in srgb, var(--note-surface) 60%, transparent); color: var(--note-ink-soft); font-size: 13.5px; line-height: 19px; text-align: center; }",
       ".dsh-notes-empty-glyph { position: relative; width: 30px; height: 30px; border-radius: 9px; border: 1.5px solid color-mix(in srgb, var(--note-ink-soft) 45%, transparent); }",
       ".dsh-notes-empty-glyph::before { content: ''; position: absolute; left: 7px; right: 7px; top: 9px; height: 1.5px; background: color-mix(in srgb, var(--note-ink-soft) 40%, transparent); border-radius: 2px; box-shadow: 0 6px 0 color-mix(in srgb, var(--note-ink-soft) 26%, transparent); }",
       "",
@@ -321,19 +327,19 @@ window.__ModuleLoader__.load({
       ".dsh-notes-footer { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 14px; border: 1px solid var(--note-line); background: var(--note-surface); }",
       ".dsh-notes-prefs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 24px; align-items: center; }",
       ".dsh-notes-prefs > .dsh-notes-section { grid-column: 1 / -1; }",
-      ".dsh-notes-pref { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; line-height: 18px; color: var(--note-ink-soft); flex-wrap: nowrap; }",
+      ".dsh-notes-pref { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; line-height: 18px; color: var(--note-ink-soft); flex-wrap: nowrap; }",
       ".dsh-notes-pref-label { min-width: 4.2em; color: var(--note-ink-soft); }",
       ".dsh-notes-export { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }",
-      ".dsh-notes-idea-status { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; line-height: 17px; color: var(--note-ink-soft); }",
+      ".dsh-notes-idea-status { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; line-height: 18px; color: var(--note-ink-soft); }",
       ".dsh-notes-idea-status::before { content: ''; width: 6px; height: 6px; border-radius: 999px; background: currentColor; opacity: 0.6; flex: none; }",
       ".dsh-notes-idea-status[data-ready=\"true\"] { color: var(--note-ok); }",
       ".dsh-notes-idea-status[data-ready=\"true\"]::before { opacity: 1; }",
       ".dsh-notes-segmented { display: inline-flex; align-items: stretch; padding: 2px; gap: 2px; border: 1px solid var(--note-line); border-radius: 10px; background: var(--note-surface-2); }",
-      ".dsh-notes-segment { appearance: none; border: none; background: transparent; color: var(--note-ink-soft); font: inherit; font-size: 11.5px; line-height: 17px; padding: 2px 9px; border-radius: 7px; cursor: pointer; transition: background 0.14s var(--note-ease), color 0.14s var(--note-ease), box-shadow 0.14s var(--note-ease); }",
+      ".dsh-notes-segment { appearance: none; border: none; background: transparent; color: var(--note-ink-soft); font: inherit; font-size: 12.5px; line-height: 18px; padding: 2px 9px; border-radius: 7px; cursor: pointer; transition: background 0.14s var(--note-ease), color 0.14s var(--note-ease), box-shadow 0.14s var(--note-ease); }",
       ".dsh-notes-segment:hover { color: var(--note-ink); }",
       ".dsh-notes-segment[aria-pressed=\"true\"] { background: var(--note-elevated); color: var(--note-ink); font-weight: 600; box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12); }",
       ".dsh-notes-segment:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 0; }",
-      ".dsh-notes-switch { display: inline-flex; align-items: center; gap: 8px; appearance: none; border: none; background: transparent; padding: 0; font: inherit; font-size: 12px; line-height: 18px; color: var(--note-ink); cursor: pointer; }",
+      ".dsh-notes-switch { display: inline-flex; align-items: center; gap: 8px; appearance: none; border: none; background: transparent; padding: 0; font: inherit; font-size: 13px; line-height: 18px; color: var(--note-ink); cursor: pointer; }",
       ".dsh-notes-switch:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 3px; border-radius: 6px; }",
       ".dsh-notes-switch-track { position: relative; width: 32px; height: 18px; border-radius: 999px; background: var(--note-line-strong); transition: background 0.18s var(--note-ease); flex: none; }",
       ".dsh-notes-switch[aria-checked=\"true\"] .dsh-notes-switch-track { background: var(--note-accent); }",
@@ -341,13 +347,13 @@ window.__ModuleLoader__.load({
       ".dsh-notes-switch[aria-checked=\"true\"] .dsh-notes-switch-thumb { left: 16px; }",
       "",
       "/* ---------- 悬浮球 ---------- */",
-      ".dsh-notes-hud { position: fixed; right: 20px; bottom: 20px; z-index: 60; width: 356px; max-width: calc(100vw - 32px); display: flex; flex-direction: column; align-items: flex-end; gap: 10px; pointer-events: none; font-size: 13px; color: var(--note-ink); }",
+      ".dsh-notes-hud { position: fixed; right: 20px; bottom: 20px; z-index: 60; width: 356px; max-width: calc(100vw - 32px); display: flex; flex-direction: column; align-items: flex-end; gap: 10px; pointer-events: none; font-size: 14px; color: var(--note-ink); }",
       ".dsh-notes-hud-collapsed { width: auto; }",
       ".dsh-notes-hud-fab { position: relative; width: 48px; height: 48px; padding: 0; border-radius: 16px; border: 1px solid color-mix(in srgb, var(--note-accent) 70%, transparent); background-color: var(--note-accent); background-image: linear-gradient(150deg, color-mix(in srgb, var(--note-accent) 90%, #ffffff), var(--note-accent)); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: auto; box-shadow: 0 10px 24px color-mix(in srgb, var(--note-accent) 32%, transparent), 0 2px 6px rgba(16, 24, 40, 0.16); transition: transform 0.18s var(--note-ease), box-shadow 0.18s var(--note-ease); }",
       ".dsh-notes-hud-fab:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 30px color-mix(in srgb, var(--note-accent) 38%, transparent), 0 3px 8px rgba(16, 24, 40, 0.18); }",
       ".dsh-notes-hud-fab:active { transform: translateY(0) scale(0.99); }",
       ".dsh-notes-hud-fab:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 60%, transparent); outline-offset: 3px; }",
-      ".dsh-notes-hud-fab-count { box-sizing: border-box; position: absolute; bottom: -5px; right: -5px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px; background: #ffffff; color: var(--note-accent); font-size: 10.5px; font-weight: 700; line-height: 19px; text-align: center; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 1px rgba(16, 24, 40, 0.08), 0 2px 6px rgba(16, 24, 40, 0.18); }",
+      ".dsh-notes-hud-fab-count { box-sizing: border-box; position: absolute; bottom: -5px; right: -5px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px; background: #ffffff; color: var(--note-accent); font-size: 11.5px; font-weight: 700; line-height: 19px; text-align: center; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 1px rgba(16, 24, 40, 0.08), 0 2px 6px rgba(16, 24, 40, 0.18); }",
       ".dsh-notes-hud-fab[data-due=\"true\"] { border-color: color-mix(in srgb, var(--note-warn) 65%, transparent); background-color: var(--note-warn); background-image: linear-gradient(150deg, #f6c46a, var(--note-warn)); box-shadow: 0 10px 24px color-mix(in srgb, var(--note-warn) 34%, transparent), 0 2px 6px rgba(16, 24, 40, 0.16); }",
       ".dsh-notes-hud-fab[data-due=\"true\"] .dsh-notes-hud-fab-count { color: var(--note-warn); }",
       ".dsh-notes-hud-fab[data-due=\"true\"]::after { content: ''; position: absolute; inset: -1px; border-radius: 17px; animation: dsh-notes-pulse 2.4s var(--note-ease) infinite; pointer-events: none; }",
@@ -355,11 +361,11 @@ window.__ModuleLoader__.load({
       "",
       "/* ---------- 展开后的悬浮面板 ---------- */",
       ".dsh-notes-hud-capture { pointer-events: auto; box-sizing: border-box; width: 100%; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 14px; border: 1px solid var(--note-line); background: var(--note-elevated); box-shadow: var(--note-shadow-2); }",
-      ".dsh-notes-hud-capture-input { flex: 1 1 auto; min-width: 0; border: none; background: transparent; color: var(--note-ink); font: inherit; font-size: 12.5px; line-height: 18px; outline: none; padding: 0; }",
+      ".dsh-notes-hud-capture-input { flex: 1 1 auto; min-width: 0; border: none; background: transparent; color: var(--note-ink); font: inherit; font-size: 13.5px; line-height: 18px; outline: none; padding: 0; }",
       ".dsh-notes-hud-capture-input::placeholder { color: color-mix(in srgb, var(--note-ink-soft) 82%, transparent); }",
-      ".dsh-notes-hud-detect { flex: none; font-size: 11px; line-height: 16px; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--note-accent) 12%, transparent); color: var(--note-accent); font-variant-numeric: tabular-nums; }",
+      ".dsh-notes-hud-detect { flex: none; font-size: 12px; line-height: 17px; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--note-accent) 12%, transparent); color: var(--note-accent); font-variant-numeric: tabular-nums; }",
       ".dsh-notes-hud-bar { pointer-events: auto; display: flex; align-items: center; gap: 6px; padding: 5px 6px 5px 14px; border-radius: 999px; border: 1px solid var(--note-line); background: color-mix(in srgb, var(--note-elevated) 90%, transparent); backdrop-filter: blur(12px); box-shadow: var(--note-shadow-1); }",
-      ".dsh-notes-hud-open { appearance: none; border: none; background: transparent; padding: 0; font: inherit; font-size: 12px; line-height: 18px; color: var(--note-ink-soft); cursor: pointer; }",
+      ".dsh-notes-hud-open { appearance: none; border: none; background: transparent; padding: 0; font: inherit; font-size: 13px; line-height: 18px; color: var(--note-ink-soft); cursor: pointer; }",
       ".dsh-notes-hud-open:hover { color: var(--note-accent); }",
       ".dsh-notes-hud-open:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 2px; border-radius: 4px; }",
       ".dsh-notes-hud-collapse { appearance: none; width: 26px; height: 26px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid var(--note-line); background: var(--note-elevated); color: var(--note-ink-soft); cursor: pointer; transition: background 0.14s var(--note-ease), color 0.14s var(--note-ease); }",
@@ -376,17 +382,17 @@ window.__ModuleLoader__.load({
       ".dsh-note-bar[data-due=\"true\"]::before { content: ''; position: absolute; left: 0; top: 11px; bottom: 11px; width: 3px; border-radius: 0 999px 999px 0; background: var(--note-warn); }",
       ".dsh-note-bar-toggle { display: block; width: 100%; margin: 0; padding: 0; border: none; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }",
       ".dsh-note-bar-toggle:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 2px; border-radius: 6px; }",
-      ".dsh-note-bar-head { display: flex; align-items: center; gap: 8px; font-size: 11px; line-height: 16px; color: var(--note-ink-soft); }",
+      ".dsh-note-bar-head { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 17px; color: var(--note-ink-soft); }",
       ".dsh-note-bar-time { font-variant-numeric: tabular-nums; }",
-      ".dsh-note-bar-badge { padding: 0 7px; border-radius: 999px; background: color-mix(in srgb, var(--note-warn) 12%, transparent); color: var(--note-warn); font-weight: 600; font-size: 10.5px; }",
+      ".dsh-note-bar-badge { padding: 0 7px; border-radius: 999px; background: color-mix(in srgb, var(--note-warn) 12%, transparent); color: var(--note-warn); font-weight: 600; font-size: 11.5px; }",
       ".dsh-note-bar-spacer { flex: 1 1 auto; }",
       ".dsh-note-bar-hint { opacity: 0.65; }",
-      ".dsh-note-bar-title { margin-top: 4px; font-size: 13px; line-height: 21px; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }",
+      ".dsh-note-bar-title { margin-top: 4px; font-size: 14px; line-height: 21px; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }",
       ".dsh-note-bar[data-expanded=\"true\"] .dsh-note-bar-title { display: block; -webkit-line-clamp: unset; }",
       ".dsh-note-bar-view { display: flex; flex-direction: column; gap: 8px; }",
       ".dsh-note-bar-body { display: flex; flex-direction: column; gap: 8px; margin-top: 9px; padding-top: 9px; border-top: 1px dashed var(--note-line); cursor: default; }",
       ".dsh-note-bar-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }",
-      ".dsh-note-bar-action { appearance: none; font: inherit; font-size: 11px; line-height: 17px; padding: 2px 10px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--note-ink-soft); cursor: pointer; transition: background 0.14s var(--note-ease), color 0.14s var(--note-ease); }",
+      ".dsh-note-bar-action { appearance: none; font: inherit; font-size: 12px; line-height: 18px; padding: 2px 10px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--note-ink-soft); cursor: pointer; transition: background 0.14s var(--note-ease), color 0.14s var(--note-ease); }",
       ".dsh-note-bar-action:hover { background: var(--note-surface-2); color: var(--note-ink); }",
       ".dsh-note-bar-action:focus-visible { outline: 2px solid color-mix(in srgb, var(--note-accent) 55%, transparent); outline-offset: 1px; }",
       ".dsh-note-bar-action[data-tone=\"positive\"] { color: var(--note-ok); background: color-mix(in srgb, var(--note-ok) 10%, transparent); }",
@@ -397,18 +403,18 @@ window.__ModuleLoader__.load({
       "",
       "/* ---------- 投到灵感：内联对话框 ---------- */",
       ".dsh-notes-idea-box { box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; padding: 13px 14px 12px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--note-accent) 26%, var(--note-line)); background: var(--note-elevated); box-shadow: var(--note-shadow-2); }",
-      ".dsh-notes-idea-head { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 650; line-height: 18px; color: var(--note-ink); }",
+      ".dsh-notes-idea-head { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 650; line-height: 18px; color: var(--note-ink); }",
       ".dsh-notes-idea-head::before { content: ''; width: 7px; height: 7px; border-radius: 999px; background: var(--note-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--note-accent) 16%, transparent); }",
-      ".dsh-notes-idea-field { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; line-height: 18px; color: var(--note-ink-soft); }",
-      ".dsh-notes-idea-input { box-sizing: border-box; flex: 1 1 160px; min-width: 0; font: inherit; font-size: 12.5px; line-height: 18px; padding: 4px 9px; border-radius: 8px; border: 1px solid var(--note-line); background: var(--note-surface); color: var(--note-ink); }",
+      ".dsh-notes-idea-field { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; line-height: 18px; color: var(--note-ink-soft); }",
+      ".dsh-notes-idea-input { box-sizing: border-box; flex: 1 1 160px; min-width: 0; font: inherit; font-size: 13.5px; line-height: 18px; padding: 4px 9px; border-radius: 8px; border: 1px solid var(--note-line); background: var(--note-surface); color: var(--note-ink); }",
       ".dsh-notes-idea-input:focus-visible { border-color: var(--note-accent); outline: 2px solid color-mix(in srgb, var(--note-accent) 26%, transparent); outline-offset: 1px; }",
       ".dsh-notes-idea-actions { display: flex; align-items: center; gap: 8px; margin-top: 2px; }",
       ".dsh-notes-idea-actions .dsh-notes-primary { margin-left: auto; }",
-      ".dsh-notes-idea-done { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; line-height: 18px; color: var(--note-ok); word-break: break-all; }",
+      ".dsh-notes-idea-done { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; line-height: 18px; color: var(--note-ok); word-break: break-all; }",
       ".dsh-notes-idea-done::before { content: '✓'; font-weight: 700; flex: none; }",
-      ".dsh-notes-idea-badge { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--note-ok) 12%, transparent); color: var(--note-ok); font-weight: 600; font-size: 10.5px; line-height: 16px; }",
+      ".dsh-notes-idea-badge { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--note-ok) 12%, transparent); color: var(--note-ok); font-weight: 600; font-size: 11.5px; line-height: 17px; }",
       ".dsh-notes-idea-badge::before { content: ''; width: 5px; height: 5px; border-radius: 999px; background: currentColor; }",
-      ".dsh-notes-idea-base { box-sizing: border-box; width: 186px; font: inherit; font-size: 11.5px; line-height: 18px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--note-line); background: var(--note-elevated); color: var(--note-ink); }",
+      ".dsh-notes-idea-base { box-sizing: border-box; width: 186px; font: inherit; font-size: 12.5px; line-height: 18px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--note-line); background: var(--note-elevated); color: var(--note-ink); }",
       "",
       "/* ---------- 无障碍：尊重减少动效 ---------- */",
       "@media (prefers-reduced-motion: reduce) {",
@@ -419,19 +425,19 @@ window.__ModuleLoader__.load({
       "/* ---------- 只读看板（P2） ---------- */",
       ".dsh-notes-board-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }",
       ".dsh-notes-board-card { box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; min-height: 104px; padding: 13px 14px; border-radius: 12px; border: 1px solid var(--note-line); background: var(--note-surface); }",
-      ".dsh-notes-board-card-head { display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; font-weight: 650; line-height: 18px; color: var(--note-ink); }",
-      ".dsh-notes-board-count { margin-left: auto; padding: 0 7px; border-radius: 999px; background: var(--note-surface-2); color: var(--note-ink-soft); font-size: 10.5px; font-weight: 500; line-height: 17px; font-variant-numeric: tabular-nums; }",
+      ".dsh-notes-board-card-head { display: flex; align-items: baseline; gap: 8px; font-size: 13.5px; font-weight: 650; line-height: 18px; color: var(--note-ink); }",
+      ".dsh-notes-board-count { margin-left: auto; padding: 0 7px; border-radius: 999px; background: var(--note-surface-2); color: var(--note-ink-soft); font-size: 11.5px; font-weight: 500; line-height: 18px; font-variant-numeric: tabular-nums; }",
       ".dsh-notes-board-list { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }",
-      ".dsh-notes-board-item { display: flex; align-items: baseline; gap: 8px; min-width: 0; font-size: 12px; line-height: 18px; color: var(--note-ink); }",
+      ".dsh-notes-board-item { display: flex; align-items: baseline; gap: 8px; min-width: 0; font-size: 13px; line-height: 18px; color: var(--note-ink); }",
       ".dsh-notes-board-time { flex: none; color: var(--note-ink-soft); font-variant-numeric: tabular-nums; }",
       ".dsh-notes-board-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }",
-      ".dsh-notes-board-empty { color: var(--note-ink-soft); font-size: 12px; line-height: 18px; }",
+      ".dsh-notes-board-empty { color: var(--note-ink-soft); font-size: 13px; line-height: 18px; }",
       ".dsh-notes-board-worker { display: flex; flex-direction: column; gap: 1px; padding: 6px 0; border-top: 1px dashed var(--note-line); }",
       ".dsh-notes-board-worker:first-child { border-top: none; padding-top: 0; }",
-      ".dsh-notes-board-worker-head { display: flex; align-items: baseline; gap: 8px; font-size: 12px; line-height: 18px; color: var(--note-ink); }",
+      ".dsh-notes-board-worker-head { display: flex; align-items: baseline; gap: 8px; font-size: 13px; line-height: 18px; color: var(--note-ink); }",
       ".dsh-notes-board-worker-name { font-weight: 600; }",
-      ".dsh-notes-board-worker-queue { margin-left: auto; color: var(--note-ink-soft); font-size: 11px; font-variant-numeric: tabular-nums; }",
-      ".dsh-notes-board-worker-task { color: var(--note-ink-soft); font-size: 11.5px; line-height: 17px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }",
+      ".dsh-notes-board-worker-queue { margin-left: auto; color: var(--note-ink-soft); font-size: 12px; font-variant-numeric: tabular-nums; }",
+      ".dsh-notes-board-worker-task { color: var(--note-ink-soft); font-size: 12.5px; line-height: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }",
       ".dsh-notes-board-file { display: flex; align-items: baseline; gap: 8px; min-width: 0; }",
       ".dsh-notes-board-file .dsh-notes-board-text { flex: 1 1 auto; }",
     ].join('\n');
@@ -781,6 +787,7 @@ window.__ModuleLoader__.load({
               snoozeMinutes: parsed.snoozeMinutes === 5 ? 5 : 10,
               hudCorner: parsed.hudCorner === 'top' ? 'top' : 'bottom',
               doneSort: parsed.doneSort === 'doneAt' ? 'doneAt' : 'createdAt',
+              activeSort: parsed.activeSort === 'recent' ? 'recent' : 'remind',
               ideaBase: typeof parsed.ideaBase === 'string' && parsed.ideaBase.startsWith('/') ? parsed.ideaBase : IDEA_BASE_DEFAULT,
             };
           }
@@ -788,7 +795,7 @@ window.__ModuleLoader__.load({
       } catch (error) {
         /* storage unavailable: keep defaults */
       }
-      return { notify: false, snoozeMinutes: 10, hudCorner: 'bottom', doneSort: 'createdAt', ideaBase: IDEA_BASE_DEFAULT };
+      return { notify: false, snoozeMinutes: 10, hudCorner: 'bottom', doneSort: 'createdAt', activeSort: 'remind', ideaBase: IDEA_BASE_DEFAULT };
     }
 
     /** Persist one preference patch and publish it to mounted components. */
@@ -797,9 +804,10 @@ window.__ModuleLoader__.load({
       if (next.snoozeMinutes !== 5 && next.snoozeMinutes !== 10) next.snoozeMinutes = 10;
       if (next.hudCorner !== 'top' && next.hudCorner !== 'bottom') next.hudCorner = 'bottom';
       if (next.doneSort !== 'doneAt' && next.doneSort !== 'createdAt') next.doneSort = 'createdAt';
+      if (next.activeSort !== 'remind' && next.activeSort !== 'recent') next.activeSort = 'remind';
       next.notify = next.notify === true;
       next.ideaBase = normalizeIdeaBase(next.ideaBase);
-      const orderChanged = next.doneSort !== prefs.doneSort;
+      const orderChanged = next.doneSort !== prefs.doneSort || next.activeSort !== prefs.activeSort;
       prefs = next;
       try {
         window.localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
@@ -996,13 +1004,16 @@ window.__ModuleLoader__.load({
 
     /**
     * Active notes first (due ones on top), then reminders by time, then done notes.
-    * Done notes follow the record-order preference: recorded order (oldest first,
-    * so new records append at the bottom) or completion time (newest first).
+    * Active notes follow the activeSort preference: reminders first (default) or
+    * newest-written. Done notes follow the record-order preference: recorded
+    * order (oldest first, so new records append at the bottom) or completion
+    * time (newest first).
     */
     function sortNotes(list) {
       const now = Date.now();
       const weight = (note) => {
         if (note.done) return 2;
+        if (prefs.activeSort === 'recent') return 1;
         return note.remindAt !== null && note.remindAt <= now ? 0 : 1;
       };
       return [...list].sort((a, b) => {
@@ -1012,6 +1023,7 @@ window.__ModuleLoader__.load({
           if (prefs.doneSort === 'doneAt') return (b.doneAt || b.createdAt) - (a.doneAt || a.createdAt);
           return a.createdAt - b.createdAt || (a.doneAt || 0) - (b.doneAt || 0);
         }
+        if (prefs.activeSort === 'recent') return b.createdAt - a.createdAt;
         if (a.remindAt !== b.remindAt) {
           if (a.remindAt === null) return 1;
           if (b.remindAt === null) return -1;
@@ -1871,6 +1883,26 @@ window.__ModuleLoader__.load({
     }
 
     /**
+    * Active-note order preference: reminders first (default) or newest-written.
+    * Shown inline at the active section head so one tap reorders the list.
+    */
+    function ActiveSortControl({ t }) {
+      const current = usePrefs();
+      const mode = current.activeSort;
+      return h('div', { className: 'dsh-notes-pref', style: { marginLeft: 'auto' } },
+        h('div', { className: 'dsh-notes-segmented', role: 'group', 'aria-label': t('prefs.activeSort') },
+          [['remind', t('prefs.sortRemind')], ['recent', t('prefs.sortRecent')]].map(([id, label]) => h('button', {
+            key: id,
+            type: 'button',
+            className: 'dsh-notes-segment',
+            'aria-pressed': mode === id ? 'true' : 'false',
+            onClick: () => savePrefs({ activeSort: id }),
+          }, label)),
+        ),
+      );
+    }
+
+    /**
     * Export the whole note list as one Markdown file for the Doushu library.
     * Download-only on purpose: the plugin itself never writes into the library.
     */
@@ -2319,6 +2351,7 @@ window.__ModuleLoader__.load({
             h('div', { className: 'dsh-notes-section-head' },
               h('span', null, t('list.active')),
               h('span', { className: 'dsh-notes-section-count' }, '(' + activeNotes.length + ')'),
+              h(ActiveSortControl, { t }),
             ),
             activeNotes.length === 0
               ? h('div', { className: 'dsh-notes-empty' },
@@ -2520,6 +2553,7 @@ window.__ModuleLoader__.load({
         SnoozeControl,
         HudCornerControl,
         DoneSortControl,
+        ActiveSortControl,
         ExportControl,
         buildNotesMarkdown,
         exportFileName,
