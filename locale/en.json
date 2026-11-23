@@ -1,6 +1,7 @@
 {
   "meta": {
     "title": "Quick notes",
-    "description": "Adds a quick-notes panel with automatic reminder-time detection; notes tuck behind a small floating launcher until you open them. One click exports them as Markdown for the Doushu library; when a Doushu idea endpoint is reachable, notes can also be promoted into idea cards."
+    "description": "A sidebar notepad: type one sentence and a Chinese reminder time (明天十点, 下周三, 30分钟后) is detected automatically. Notes live in the host SQLite database and survive restarts; three model tools let any DSH session read and write the same notes. No network access, no reporting. Optional: promote one chosen note into a Markdown idea card.",
+    "detail": "docs/DETAIL.md"
   }
 }

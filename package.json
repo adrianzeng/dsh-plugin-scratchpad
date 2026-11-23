@@ -1,20 +1,35 @@
 {
-  "name": "@local/dsh-plugin-scratchpad",
-  "version": "1.9.2",
-  "private": true,
-  "description": "Quick notes with automatic reminder-time detection, a left sidebar entry with a live count, a collapsible launcher with inline editing, and an optional promote-to-ideas action for Doushu-based workflows.",
+  "name": "dsh-plugin-scratchpad",
+  "version": "2.0.0",
+  "description": "Quick notes for DeepSeek Harness: a left-sidebar notepad with Chinese reminder-time detection, host SQLite storage, three model tools, and an optional manual promote-to-ideas step. · 速记便签：左侧栏便签，中文提醒时间自动识别，便签存在宿主 SQLite 里，带三个模型工具和可选的人工投递。",
   "license": "MIT",
+  "author": "adrianzeng",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianzeng/dsh-plugin-scratchpad.git"
+  },
+  "homepage": "https://github.com/adrianzeng/dsh-plugin-scratchpad#readme",
+  "bugs": {
+    "url": "https://github.com/adrianzeng/dsh-plugin-scratchpad/issues"
+  },
   "keywords": [
     "dsh",
     "dsh-plugin",
     "deepseek-harness",
     "notes",
+    "scratchpad",
     "reminders",
     "productivity",
-    "doushu",
-    "ideas"
+    "sqlite"
   ],
   "type": "module",
+  "engines": {
+    "node": ">=22.5.0",
+    "dsh": ">=0.2.0"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
@@ -26,7 +41,12 @@
     "client.js",
     "cordis.patch.yml",
     "locale/*.json",
-    "icon.svg"
+    "icon.svg",
+    "docs",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "dsh": {
     "bundle": { "patch": "./cordis.patch.yml" },

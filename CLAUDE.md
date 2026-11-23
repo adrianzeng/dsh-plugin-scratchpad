@@ -1,11 +1,11 @@
 # CLAUDE.md
 
-> **改这个项目之前先读 `@AGENTS.md`**（唯一事实源：架构、铁律、接口、测试、禁改区）。
-> 本文件只放 Claude Code 需要立刻知道的最少信息。
+> **改这个项目之前先读 [AGENTS.md](AGENTS.md)**（唯一事实源：架构、铁律、接口、测试、禁改区）。
+> 本文件只放立刻要知道的最少信息。
 
 ## 这是什么
 
-DSH（DeepSeek Harness）的速记便签插件 `@local/dsh-plugin-scratchpad`，v1.9.0 / P2 完成。
+DSH（DeepSeek Harness）的速记便签插件 `dsh-plugin-scratchpad`，v2.0.0，MIT，开源。
 两个半边：`index.js` 宿主（SQLite + HTTP + 模型工具），`client.js` 浏览器（UI）。
 
 ## 三条最容易踩的
@@ -17,21 +17,22 @@ DSH（DeepSeek Harness）的速记便签插件 `@local/dsh-plugin-scratchpad`，
 ## 常用命令
 
 ```bash
-node --test tests/*.test.mjs       # 全量测试（14 项，改完必跑）
-node --test tests/storage.test.mjs # 只跑存储层
+node --test tests/*.test.mjs       # 全量（7 文件 / 14 项，改完必跑）
+node tests/storage.test.mjs        # 只跑存储层
 ```
 
 ## 改动的自我检查
 
-- 动了 `index.js` 的 `buildIdeaMarkdown` → 同步更新 `tests/storage.test.mjs` 断言和 `SPEC-P2.md §5`
-- 加了 UI 文案 → `locale/zh.json` 和 `locale/en.json` 都要加（parity 测试会红）
+- 动了 `index.js` 的 `buildIdeaMarkdown` → 同步更新 `tests/storage.test.mjs` 断言和 `docs/IDEA-CONTRACT.md`
+- 加了 UI 文案 → `client.js` 内嵌字典与 `locale/zh.json` / `locale/en.json` 都要加（parity 测试会红）
 - 加了 CSS 类 → 前缀用 `dsh-notes-` 或 `dsh-note-bar-`，避免撞宿主样式
-- 动了表结构 → 写迁移，不要 DROP
+- 动了表结构 → 写迁移，不要 `DROP`
+- 改了包名 → `cordis.patch.yml` 的 `name`、`client.js` 的模块 id、`tests/smoke-render.test.mjs` 断言三处一起改
 
 ## 别碰
 
-`~/.dsh/profiles/desktop/` 下的插件装卸与依赖清单（本项目那一行 `link:` 除外）；灵台、agent-hub 的目录；`00-收件箱/HANDOFF.md`。
+`~/.dsh/profiles/desktop/` 下的插件装卸与依赖清单（本项目那一行除外）；灵台、agent-hub 的目录；`00-收件箱/HANDOFF.md`。
 
 ## 交付口径
 
-测试绿只是及格线。能不能算做完，看真机：DSH 里记一条 → 投递 → 观星台「灵感」页出卡、六字段齐、无重复卡。
+测试绿只是及格线。能不能算做完，看真机：DSH 里记一条 → 投递 → 消费端「灵感」页出卡、六字段齐、无重复卡。

@@ -78,7 +78,7 @@ evaluate(loaderWindow, documentStub, NotificationStub, (name) => {
 
 assert.equal(definitions.length, 1, 'exactly one module definition must be loaded');
 const definition = definitions[0];
-assert.equal(definition.id, '@local/dsh-plugin-scratchpad');
+assert.equal(definition.id, 'dsh-plugin-scratchpad');
 const plugin = definition.factory((name) => {
   if (name === 'react') return fakeReact;
   throw new Error('unexpected module require: ' + name);

@@ -12,7 +12,7 @@
  * through the Notification API.
  */
 window.__ModuleLoader__.load({
-  id: '@local/dsh-plugin-scratchpad',
+  id: 'dsh-plugin-scratchpad',
   factory(require) {
     const React = require('react');
     const h = React.createElement;
@@ -30,7 +30,7 @@ window.__ModuleLoader__.load({
     /** Host HTTP prefix owned by index.js. */
     const API_BASE = '/api/scratchpad';
     /** Tag id of this plugin's stylesheet, also used as its dedupe marker. */
-    const STYLE_ID = '@local/dsh-plugin-scratchpad/styles';
+    const STYLE_ID = 'dsh-plugin-scratchpad/styles';
     /** Default prefix of the idea endpoint (the Lingtai observatory). */
     const IDEA_BASE_DEFAULT = '/lingtai-guanxingtai';
     /** Platform values sent with an idea; fixed Doushu field values, kept client-side on purpose. */
@@ -2435,7 +2435,7 @@ window.__ModuleLoader__.load({
         const stale = document.querySelector(marker);
         if (stale !== null) stale.remove();
         const tag = document.createElement('style');
-        tag.dataset.plugin = '@local/dsh-plugin-scratchpad';
+        tag.dataset.plugin = 'dsh-plugin-scratchpad';
         tag.dataset.pluginCss = STYLE_ID;
         tag.textContent = CSS;
         document.head.appendChild(tag);
