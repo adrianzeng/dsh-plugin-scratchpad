@@ -72,9 +72,14 @@ DSH 的 `webServer.register({ kind: 'prefix', path, handler })` 交给插件的�
 
 ### 鉴权
 
-**每个 HTTP handler 第一行就是 `isLoopback(request.ip)`，非本机直接 403。** 前端不绕行、不自造认证。
+两道检查，缺一不可：
 
-`isLoopback` 认 `127.0.0.1`、`::1`、`localhost`、`::ffff:127.0.0.1`、`127.*`，以及**空 IP**（拿不到对端地址时按本机处理——桌面版可能走的是本地 socket）。这里有个取舍：空 IP 放行是为了兼容拿不到地址的场景，真正的边界是宿主只监听 `127.0.0.1`。
+1. **网络层**：`isLoopback(request.ip)`，非本机直接 403。认 `127.0.0.1`、`::1`、`localhost`、`::ffff:127.0.0.1`、`127.*`，以及**空 IP**（拿不到对端地址时按本机处理——桌面版可能走的是本地 socket）。
+2. **浏览器层**：`createAccessCheck(ctx)`。宿主提供 `connection.requestRejection({ headers })` 时以它的判定为准（同源 + 登录态，返回值不是 `undefined` 即拒绝）；拿不到该服务时退回 `Origin` 与 `Host` 比对。
+
+第二道是 2.0.1 补的。只挡 IP 挡不住「用户浏览器里打开的任意网页去 POST 127.0.0.1」——跨站请求带 `Origin`，网页读不到响应，但请求会真的打进来，能建便签、删便签、触发投递写文件。没有 `Origin` 的请求（curl、测试、宿主自己）照常放行，由第一道覆盖。
+
+前端不绕行、不自造认证、不猜放行规则。
 
 ### 投递路径
 
@@ -94,7 +99,7 @@ POST /notes/:id/promote
 
 | 文件 | 覆盖 |
 | --- | --- |
-| `tests/storage.test.mjs` | 库结构、CRUD、状态流转、6 条路由、回环拒绝、投递文件内容 |
+| `tests/storage.test.mjs` | 库结构、CRUD、状态流转、6 条路由、回环拒绝、跨站拒绝、投递文件内容 |
 | `tests/time-parser.test.mjs` | 40 例中文时间解析 |
 | `tests/idea-promote.test.mjs` | 标题净化、平台枚举、偏好持久化 |
 | `tests/board-render.test.mjs` | 看板四块渲染与 Agent Hub 未运行的兜底 |

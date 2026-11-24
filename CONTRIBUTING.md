@@ -30,7 +30,7 @@ dsh plugin --profile <profile> add link:/绝对路径/dsh-plugin-scratchpad
 
 1. **写路径唯一**：只有 `POST /api/scratchpad/notes/:id/promote` 写 `00-收件箱`，一次一张卡。
 2. **失败不自动重试**：重试会产生 `-2` 重复卡。
-3. **第一行鉴权**：每个 HTTP handler 开头就是回环检查，非本机 403。
+3. **鉴权两层**：每个 HTTP handler 先做回环检查（非本机 403），再做访问检查（宿主的 `connection.requestRejection`，取不到时退回 Origin/Host 同源比对）。
 4. **投递根不由调用方指定**：只从设置文件读。
 5. **投递卡片必须自带六个中文字段**；英文小写键是兼容位，别删。
 

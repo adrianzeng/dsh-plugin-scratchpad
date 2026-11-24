@@ -2,6 +2,20 @@
 
 按 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 的粗粒度整理；版本号遵循语义化版本。P1/P2 期的逐条细节在 [docs/history/CHANGELOG-P2.md](docs/history/CHANGELOG-P2.md)。
 
+## [2.0.1] — 2026-11-24
+
+安全修复：补上宿主访问检查，堵住跨站调用。
+
+### 修复
+
+- HTTP 路由新增第二道检查 `createAccessCheck(ctx)`：优先用宿主的 `connection.requestRejection({ headers })`（同源 + 登录态），拿不到该服务时退回 `Origin`/`Host` 比对。此前只有 `isLoopback`——挡得住非本机 IP，挡不住「用户浏览器里打开的网页 POST 127.0.0.1」：网页读不到响应，但请求会真的执行，能建便签、删便签、触发投递写文件。
+- 四个路由适配分支（Hono / 原生 Node / Express / Koa）都会把 `headers` 传进纯 handler；没有 `Origin` 的请求（curl、测试、宿主自己）照常放行，由回环检查覆盖。
+- `tests/storage.test.mjs` 新增 1 项：跨站写入被拒且不落库、同源放行、无 Origin 的原生客户端放行、宿主拒绝时以宿主为准、回环检查仍在前。
+
+### 没变
+
+接口、数据结构、投递格式、三个工具的行为都不变。宿主半改了，**升级后要重启 DSH 才生效**。
+
 ## [2.0.0] — 2026-11-23
 
 开源首发。功能与 1.9.2 一致，变的是外形和身份。

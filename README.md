@@ -77,7 +77,7 @@ dsh plugin --profile <profile> add https://github.com/adrianzeng/dsh-plugin-scra
 
 ## HTTP 接口
 
-前缀 `/api/scratchpad`，**只接受本机回环地址**，非本机一律 403。
+前缀 `/api/scratchpad`，**只接受本机回环地址，且必须同源**：宿主提供 `connection.requestRejection` 时以它为准（同源 + 登录态），取不到时退回 Origin/Host 比对。非本机请求一律 403，浏览器里打开的别的网页也调不动它。
 
 | 方法 | 路径 | 说明 |
 | --- | --- | --- |

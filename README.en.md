@@ -77,7 +77,7 @@ All three go through the host database; they never touch localStorage and never 
 
 ## HTTP endpoints
 
-Prefix `/api/scratchpad`, **loopback only** — non-local requests get 403.
+Prefix `/api/scratchpad`, **loopback only and same-origin**: the host's `connection.requestRejection` decides when the host exposes it (same origin plus login), otherwise the `Origin`/`Host` pair is compared. Non-local requests get 403, and a page open on another site cannot drive the API either.
 
 | Method | Path | Purpose |
 | --- | --- | --- |

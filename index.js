@@ -514,11 +514,96 @@ function isLoopback(ip) {
     || value.startsWith('127.');
 }
 
+/** Lower-cased plain header bag from Node/WHATWG/Fetch header shapes. */
+export function plainHeaders(value) {
+  if (value === null || value === undefined || typeof value !== 'object') return {};
+  if (typeof value.entries === 'function') {
+    try {
+      const out = {};
+      for (const [key, item] of value.entries()) {
+        out[String(key).toLowerCase()] = String(item);
+      }
+      return out;
+    } catch (error) {
+      return {};
+    }
+  }
+  const out = {};
+  for (const [key, item] of Object.entries(value)) {
+    if (item === undefined || item === null) continue;
+    out[String(key).toLowerCase()] = Array.isArray(item) ? String(item[0]) : String(item);
+  }
+  return out;
+}
+
+/**
+ * Browser-origin guard, independent of the host.
+ *
+ * A cross-site request carries an Origin header on its non-simple methods, so
+ * an Origin that does not match the Host means the call came from a page other
+ * than this app. Requests without Origin come from native clients (tests, curl,
+ * the host itself) and stay allowed — the loopback check already covers them.
+ */
+export function isSameOrigin(headers) {
+  const bag = plainHeaders(headers);
+  const origin = bag.origin;
+  if (origin === undefined || origin === '') return true;
+  const host = bag.host;
+  if (host === undefined || host === '') return false;
+  try {
+    return new URL(origin).host.toLowerCase() === host.toLowerCase();
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * Access check used by the mounted handler.
+ *
+ * DSH exposes `connection.requestRejection({ headers })` to plugins that mount
+ * HTTP routes; it returns `undefined` when the request is same-origin and
+ * logged in (same usage as lingtai's host half). When that service is not
+ * available the handler falls back to the Origin/Host comparison, so a page on
+ * another site still cannot drive the API from the user's browser.
+ *
+ * @param ctx - the cordis context this bundle was applied with.
+ * @returns {(request: object) => (string|null)} null = allowed, string = denial reason.
+ */
+export function createAccessCheck(ctx) {
+  return function access(request = {}) {
+    let connection;
+    try {
+      connection = ctx !== null && ctx !== undefined && typeof ctx.get === 'function'
+        ? ctx.get('connection')
+        : undefined;
+    } catch (error) {
+      connection = undefined;
+    }
+    if (connection !== undefined && connection !== null
+      && typeof connection.requestRejection === 'function') {
+      try {
+        const headers = plainHeaders(request.headers);
+        return connection.requestRejection({ headers }) === undefined
+          ? null
+          : '请求被宿主的访问检查拒绝（需要同源且已登录）';
+      } catch (error) {
+        return '请求鉴权失败';
+      }
+    }
+    return isSameOrigin(request.headers) ? null : '跨站请求被拒绝';
+  };
+}
+
 /**
  * Pure HTTP handler shared by every route adapter. Input:
- * `{ method, pathname, query, body, ip }`; output: `{ status, body }`.
+ * `{ method, pathname, query, body, ip, headers }`; output: `{ status, body }`.
+ *
+ * `options.access` stays optional so the handler is testable on its own; the
+ * mounted app always passes `createAccessCheck(ctx)`. The loopback check runs
+ * first and cannot be bypassed by it.
  */
-export function createHttpHandler(store) {
+export function createHttpHandler(store, options = {}) {
+  const access = typeof options.access === 'function' ? options.access : null;
   return async function handle(request = {}) {
     const method = String(request.method || 'GET').toUpperCase();
     const pathname = String(request.pathname || '/');
@@ -526,6 +611,10 @@ export function createHttpHandler(store) {
     const body = request.body !== null && typeof request.body === 'object' ? request.body : {};
 
     if (!isLoopback(request.ip)) return response(403, { error: '仅允许本机访问' });
+    if (access !== null) {
+      const denial = access(request);
+      if (typeof denial === 'string' && denial !== '') return response(403, { error: denial });
+    }
     if (pathname !== API_PREFIX && !pathname.startsWith(API_PREFIX + '/')) {
       return response(404, { error: '未知接口' });
     }
@@ -685,6 +774,7 @@ function createRouteCallback(handler) {
         query: Object.fromEntries(url.searchParams),
         body: await ensureBody(body),
         ip: typeof request.header === 'function' ? request.header('x-forwarded-for') : '',
+        headers: plainHeaders(request.headers),
       });
       return first.json(result.body, result.status);
     }
@@ -704,6 +794,7 @@ function createRouteCallback(handler) {
         query: Object.fromEntries(url.searchParams),
         body: await ensureBody(body),
         ip: first.socket && first.socket.remoteAddress ? first.socket.remoteAddress : '',
+        headers: plainHeaders(first.headers),
       });
       second.statusCode = result.status;
       second.setHeader('content-type', 'application/json; charset=utf-8');
@@ -722,6 +813,7 @@ function createRouteCallback(handler) {
         query: Object.fromEntries(url.searchParams),
         body: await ensureBody(first.body),
         ip: first.ip || (first.socket && first.socket.remoteAddress) || '',
+        headers: plainHeaders(first.headers),
       });
       second.status(result.status).json(result.body);
       return;
@@ -745,6 +837,7 @@ function createRouteCallback(handler) {
           : Object.fromEntries(url.searchParams),
         body: await ensureBody(body),
         ip: first.ip || request.ip || (raw && raw.socket ? raw.socket.remoteAddress : ''),
+        headers: plainHeaders(request.headers),
       });
       first.status = result.status;
       first.body = result.body;
@@ -1034,7 +1127,10 @@ export function registerTools(ctx, tools) {
 /** Host plugin entry: one store, five routes, three tools. */
 export function apply(ctx) {
   const store = createNoteStore();
-  const handler = createHttpHandler(store);
+  // The access check is bound to this ctx so it can reach the host's
+  // connection service; it is the CSRF half of the guard, the handler's own
+  // loopback check is the network half.
+  const handler = createHttpHandler(store, { access: createAccessCheck(ctx) });
   const tools = createTools(store);
 
   // Routes MUST be mounted from inside ctx.inject(['webServer']): reading

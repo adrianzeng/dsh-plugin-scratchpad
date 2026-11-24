@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-scratchpad",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Quick notes for DeepSeek Harness: a left-sidebar notepad with Chinese reminder-time detection, host SQLite storage, three model tools, and an optional manual promote-to-ideas step. · 速记便签：左侧栏便签，中文提醒时间自动识别，便签存在宿主 SQLite 里，带三个模型工具和可选的人工投递。",
   "license": "MIT",
   "author": "adrianzeng",

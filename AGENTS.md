@@ -12,11 +12,11 @@
 
 | 项 | 值 |
 |---|---|
-| 版本 | `2.0.0`（开源首发，功能等同 1.9.2） |
+| 版本 | `2.0.1`（2.0.0 开源首发，2.0.1 补上访问检查） |
 | DSH 包名 | `dsh-plugin-scratchpad`（2.0.0 起去掉了 `@local/` 前缀） |
 | 仓库 | `github.com/adrianzeng/dsh-plugin-scratchpad`（公开，MIT） |
 | 加载方式 | 开发时用 profile 里的 `link:` 依赖，改 `client.js` 刷新即生效；改 `index.js` 需重启 DSH |
-| 测试 | `node --test tests/*.test.mjs` → 7 文件 / 14 项，全绿 |
+| 测试 | `node --test tests/*.test.mjs` → 7 文件 / 15 项，全绿 |
 | 上架 | DSH 插件市场，经 `awesome-dsh-plugin` 精选列表收录 |
 | 阶段 | P2 已封版；P4（开源）已完成首轮；P3 未开始（见 §8） |
 
@@ -71,7 +71,7 @@ promoted_path TEXT            -- 投出去的文件绝对路径
 
 1. **写路径唯一**：只有 `POST /api/scratchpad/notes/:id/promote` 会写 `00-收件箱`。便签正文**永远**不自动写进去。一次投递只写一张卡。
 2. **失败不自动重试**。重试会产生 `-2` 脏卡。任何网络/写盘失败 → 只报错。
-3. **鉴权归宿主写死**：HTTP handler 第一行就是 `isLoopback` 检查，非本机一律 403。**前端不绕行、不自造认证、不猜放行规则。**
+3. **鉴权两层写死**：HTTP handler 先 `isLoopback`（非本机一律 403），再 `createAccessCheck(ctx)`（宿主的 `connection.requestRejection`，取不到时退回 Origin/Host 同源比对）。**前端不绕行、不自造认证、不猜放行规则。**
 4. **投递根目录不可由调用方指定**。只从设置文件读，防止外部请求把文件写到任意位置。
 5. **人工投递代替自动筛选**。便签什么都收（生活、工作、杂事），「投」是人的判断动作。AI 只能建议，**不能代投**。
 6. **格式由写的人负责**。投出去的卡必须自带六个中文字段；读的人保持简单，不指望消费端做兼容补丁。英文小写键是 v1.7 兼容位，**别删**。
@@ -151,14 +151,14 @@ platform: <同上>
 ## 6. 测试与验收
 
 ```bash
-node --test tests/*.test.mjs      # 全量，7 文件 / 14 项
+node --test tests/*.test.mjs      # 全量，7 文件 / 15 项
 ```
 
 在个别受限环境（例如 DSH 的 Windows 沙箱）里 `node --test` 起子进程会被挡（`spawn EPERM`），可以逐文件跑 `node tests/<file>.test.mjs`，结果等价。
 
 | 文件 | 覆盖 |
 |---|---|
-| `storage.test.mjs` | 库结构、CRUD、状态流转、6 条路由、回环拒绝、投递格式（8 项） |
+| `storage.test.mjs` | 库结构、CRUD、状态流转、6 条路由、回环拒绝、跨站拒绝、投递格式（9 项） |
 | `time-parser.test.mjs` | 40 例中文时间解析 |
 | `idea-promote.test.mjs` | 标题净化、平台枚举、偏好持久化 |
 | `board-render.test.mjs` | 看板四地块渲染 + Agent Hub 未运行兜底 |

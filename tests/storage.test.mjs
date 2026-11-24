@@ -10,6 +10,7 @@ import { join } from 'node:path';
 import {
   createNoteStore,
   createHttpHandler,
+  createAccessCheck,
   createTools,
   makeNoteId,
   parseExportMarkdown,
@@ -126,8 +127,76 @@ test('the HTTP layer rejects blank text and non-loopback callers', async (t) => 
   assert.equal(remote.status, 403);
 });
 
-test('model tools expose the six required fields and share the store', async (t) => {
+test('the access check blocks cross-site browser calls and defers to the host', async (t) => {
   const store = tempStore(t);
+
+  // Without a connection service the Origin/Host fallback decides.
+  const fallback = createHttpHandler(store, { access: createAccessCheck(null) });
+
+  const crossSiteWrite = await fallback({
+    method: 'POST',
+    pathname: API_PREFIX + '/notes',
+    query: {},
+    body: { text: '来自别的网站' },
+    ip: '127.0.0.1',
+    headers: { host: '127.0.0.1:52497', origin: 'https://evil.example' },
+  });
+  assert.equal(crossSiteWrite.status, 403, 'a page on another origin must not write notes');
+  assert.equal(store.list({ status: 'all' }).length, 0, 'the rejected write must not reach the store');
+
+  const sameOrigin = await fallback({
+    method: 'GET',
+    pathname: API_PREFIX + '/notes',
+    query: {},
+    body: {},
+    ip: '127.0.0.1',
+    headers: { host: '127.0.0.1:52497', origin: 'http://127.0.0.1:52497' },
+  });
+  assert.equal(sameOrigin.status, 200);
+
+  const nativeClient = await fallback({
+    method: 'GET',
+    pathname: API_PREFIX + '/notes',
+    query: {},
+    body: {},
+    ip: '127.0.0.1',
+    headers: {},
+  });
+  assert.equal(nativeClient.status, 200, 'no Origin means a native client, which stays allowed');
+
+  // When the host exposes connection.requestRejection, its verdict wins.
+  const seen = [];
+  const ctx = {
+    get(name) {
+      if (name !== 'connection') return undefined;
+      return {
+        requestRejection({ headers }) {
+          seen.push(headers);
+          return headers['x-block'] === '1' ? new Error('blocked') : undefined;
+        },
+      };
+    },
+  };
+  const hosted = createHttpHandler(store, { access: createAccessCheck(ctx) });
+  const allowed = await hosted({
+    method: 'GET', pathname: API_PREFIX + '/about', query: {}, body: {}, ip: '127.0.0.1', headers: { host: '127.0.0.1:52497' },
+  });
+  assert.equal(allowed.status, 200);
+  const denied = await hosted({
+    method: 'GET', pathname: API_PREFIX + '/about', query: {}, body: {}, ip: '127.0.0.1', headers: { 'x-block': '1' },
+  });
+  assert.equal(denied.status, 403);
+  assert.equal(seen.length, 2, 'every request must go through the host check');
+
+  // The loopback guard still runs first and keeps its own message.
+  const remote = await hosted({
+    method: 'GET', pathname: API_PREFIX + '/about', query: {}, body: {}, ip: '10.0.0.8', headers: {},
+  });
+  assert.equal(remote.status, 403);
+  assert.equal(remote.body.error, '仅允许本机访问');
+});
+
+test('model tools expose the six required fields and share the store', async (t) => {  const store = tempStore(t);
   const tools = createTools(store);
   assert.deepEqual(tools.map((tool) => tool.name), ['note_add', 'note_list', 'note_promote']);
   for (const tool of tools) {
