@@ -106,7 +106,7 @@ Details: [architecture](docs/ARCHITECTURE.md).
 ## Development
 
 ```sh
-node --test tests/*.test.mjs     # full suite: 7 files / 14 tests
+node --test tests/*.test.mjs     # full suite: 7 files / 15 tests
 ```
 
 One layer at a time:

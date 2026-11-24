@@ -13,7 +13,7 @@
 ```sh
 git clone https://github.com/adrianzeng/dsh-plugin-scratchpad.git
 cd dsh-plugin-scratchpad
-node --test tests/*.test.mjs      # 应该 7 个文件 / 14 项全绿
+node --test tests/*.test.mjs      # 应该 7 个文件 / 15 项全绿
 ```
 
 装进自己的 DSH 做真机验证：

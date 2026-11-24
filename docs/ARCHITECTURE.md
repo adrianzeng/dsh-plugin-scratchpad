@@ -107,4 +107,4 @@ POST /notes/:id/promote
 | `tests/smoke-render.test.mjs` | stub 环境跑 `apply` 并渲染每个注册面 |
 | `tests/locale-parity.test.mjs` | 中英字典键对齐、引用键都存在 |
 
-`node --test tests/*.test.mjs` 跑全量：7 个文件 / 14 项。
+`node --test tests/*.test.mjs` 跑全量：7 个文件 / 15 项。

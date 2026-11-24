@@ -5,7 +5,7 @@
 
 ## 这是什么
 
-DSH（DeepSeek Harness）的速记便签插件 `dsh-plugin-scratchpad`，v2.0.0，MIT，开源。
+DSH（DeepSeek Harness）的速记便签插件 `dsh-plugin-scratchpad`，v2.0.1，MIT，开源。
 两个半边：`index.js` 宿主（SQLite + HTTP + 模型工具），`client.js` 浏览器（UI）。
 
 ## 三条最容易踩的
@@ -17,7 +17,7 @@ DSH（DeepSeek Harness）的速记便签插件 `dsh-plugin-scratchpad`，v2.0.0�
 ## 常用命令
 
 ```bash
-node --test tests/*.test.mjs       # 全量（7 文件 / 14 项，改完必跑）
+node --test tests/*.test.mjs       # 全量（7 文件 / 15 项，改完必跑）
 node tests/storage.test.mjs        # 只跑存储层
 ```
 

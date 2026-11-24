@@ -106,7 +106,7 @@ dsh plugin --profile <profile> add https://github.com/adrianzeng/dsh-plugin-scra
 ## 开发
 
 ```sh
-node --test tests/*.test.mjs     # 全量：7 个文件 / 14 项
+node --test tests/*.test.mjs     # 全量：7 个文件 / 15 项
 ```
 
 只跑一层：
